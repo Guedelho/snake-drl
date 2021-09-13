@@ -116,13 +116,11 @@ def train(agent, game, n_episodes=1000, eps_start=1.0, eps_end=0.01, eps_decay=0
 
     for i_episodes in range(1, n_episodes+1):
         state = game.reset()
-        scores = 0
         while True:
             action = agent.act(state, eps)
             reward, done, score = game.step(action)
             next_state = game.get_state()
             agent.step(state, action, reward, next_state, done)
-            scores += score
             state = next_state
 
             if score > max_score:
@@ -134,10 +132,10 @@ def train(agent, game, n_episodes=1000, eps_start=1.0, eps_end=0.01, eps_decay=0
         eps = max(eps_end, eps_decay*eps)
 
         print('Game', i_episodes, 'Score',
-              scores, 'Max Score:', max_score, 'Loss', loss)
+              score, 'Max Score:', max_score, 'Loss', loss)
 
-        plot_scores.append(scores)
-        total_score += scores
+        plot_scores.append(score)
+        total_score += score
         mean_score = total_score / i_episodes
         print(total_score, mean_score)
         plot_mean_scores.append(mean_score)
