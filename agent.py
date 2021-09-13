@@ -92,15 +92,15 @@ class ReplayBuffer():
         experiences = random.sample(self.memory, BATCH_SIZE)
 
         states = torch.tensor(
-            np.vstack([e.state for e in experiences]), dtype=torch.float)
+            np.vstack([e.state for e in experiences if e is not None]), dtype=torch.float)
         actions = torch.tensor(
-            np.vstack([e.action for e in experiences]), dtype=torch.float)
+            np.vstack([e.action for e in experiences if e is not None]), dtype=torch.float)
         rewards = torch.tensor(
-            np.vstack([e.reward for e in experiences]), dtype=torch.float)
+            np.vstack([e.reward for e in experiences if e is not None]), dtype=torch.float)
         next_states = torch.tensor(
-            np.vstack([e.next_state for e in experiences]), dtype=torch.float)
+            np.vstack([e.next_state for e in experiences if e is not None]), dtype=torch.float)
         dones = torch.tensor(
-            np.vstack([e.done for e in experiences]), dtype=torch.uint8)
+            np.vstack([e.done for e in experiences if e is not None]), dtype=torch.uint8)
         return (states, actions, rewards, next_states, dones)
 
     def __len__(self):
